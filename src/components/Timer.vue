@@ -2,15 +2,16 @@
   <div class="jumbotron jumbotron-fluid">
     <div class="container">
       <div class="row">
-        <div class="col-6">
-          <h1 class="display-5">ХОД {{ player }}-ГО ИГРОКА</h1>
-          <p class="display-1">{{ normilizedTimer }}</p>
+        <div class="col-md mb-3">
+          <p class="display-4">{{ normilizedTimer }}</p>
+          <p class="lead">ХОД {{ player }}-ГО ИГРОКА</p>
+          <hr>
           <router-link tag="button" class="btn btn-primary" v-if="player === 1" to="2">ЗАВЕРШИТЬ ХОД</router-link>
           <router-link tag="button" class="btn btn-primary" v-else to="1">ЗАВЕРШИТЬ ХОД</router-link>
         </div>
-        <div class="col-6">
-          Первый игрок - {{ firstPlayer }}
-          Второй игрок - {{ secondPlayer }}
+        <div class="col-md-4">
+          <Clock name="ПЕРВЫЙ ИГРОК" :time="player_1" />
+          <Clock name="ВТОРОЙ ИГРОК" :time="player_2" />
         </div>
       </div>
     </div>
@@ -18,6 +19,8 @@
 </template>
 
 <script>
+  import Clock from './Clock'
+
   const max = 1000 * 60 * 2;
 
   export default {
@@ -28,6 +31,9 @@
         required: true,
         default: 1
       }
+    },
+    components: {
+      Clock
     },
     data() {
       const currentTime = (new Date()).getTime();
@@ -46,12 +52,6 @@
     computed: {
       normilizedTimer() {
         return convertTime(this.timer)
-      },
-      firstPlayer: function() {
-        return convertTime(this.player_1)
-      },
-      secondPlayer: function() {
-        return convertTime(this.player_2)
       }
     },
     mounted: function() {
